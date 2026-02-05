@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gateway
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gateway
+  template:
+    metadata:
+      labels:
+        app: gateway
+    spec:
+      containers:
+        - name: gateway
+          image: gateway-service:latest
+          imagePullPolicy: Always
+
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              memory: "1024Mi"
+              cpu: "500m"
+
+          ports:
+            - containerPort: 1000
+
+          env:
+            - name: SPRING_APPLICATION_NAME
+              value: gateway-service
+
+            - name: SERVER_PORT
+              value: "1000"
+
+            - name: SPRING_CONFIG_IMPORT
+              value: optional:consul:/
+
+            - name: SPRING_CLOUD_CONSUL_HOST
+              value: consul
+            - name: SPRING_CLOUD_CONSUL_PORT
+              value: "8500"
+
+            - name: GOOGLE_CLIENT_ID
+              valueFrom:
+                secretKeyRef:
+                  name: gateway-oauth-secret
+                  key: GOOGLE_CLIENT_ID
+
+            - name: GOOGLE_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: gateway-oauth-secret
+                  key: GOOGLE_CLIENT_SECRET
+
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 1000
+            initialDelaySeconds: 30
+            periodSeconds: 10
+
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 1000
+            initialDelaySeconds: 60
+            periodSeconds: 30

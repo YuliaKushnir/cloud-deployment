@@ -1,0 +1,31 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - base
+
+images:
+  - name: posts-service
+    newName: ghcr.io/YOUR_GITHUB_USERNAME/posts-service
+    newTag: latest
+  - name: mail-service
+    newName: ghcr.io/YOUR_GITHUB_USERNAME/mail-service
+    newTag: latest
+  - name: gateway-service
+    newName: ghcr.io/YOUR_GITHUB_USERNAME/gateway-service
+    newTag: latest
+  - name: elasticsearch
+    newName: docker.elastic.co/elasticsearch/elasticsearch
+    newTag: 8.6.1
+  - name: kibana
+    newName: docker.elastic.co/kibana/kibana
+    newTag: 8.6.1
+  - name: rabbitmq
+    newName: rabbitmq
+    newTag: 3-management
+  - name: consul
+    newName: hashicorp/consul
+    newTag: 1.16.2
+  - name: postgres
+    newName: postgres
+    newTag: 15

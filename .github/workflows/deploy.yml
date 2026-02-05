@@ -1,0 +1,106 @@
+name: Deploy to GKE
+
+on:
+  repository_dispatch:
+    types: [deploy]
+
+  workflow_dispatch:
+    inputs:
+      services:
+        description: 'Services to deploy (comma-separated: gateway,posts-service,mail-service or all)'
+        required: true
+        default: 'all'
+      image_tag:
+        description: 'Image tag to deploy'
+        required: true
+        default: 'latest'
+
+env:
+  GKE_PROJECT: ${{ secrets.GKE_PROJECT }}
+  GKE_CLUSTER: ${{ secrets.GKE_CLUSTER }}
+  GKE_ZONE: ${{ secrets.GKE_ZONE }}
+  REGISTRY: ghcr.io
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GKE_SA_KEY }}
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+        with:
+          project_id: ${{ env.GKE_PROJECT }}
+          install_components: 'gke-gcloud-auth-plugin'
+
+      - name: Configure kubectl
+        run: |
+          gcloud container clusters get-credentials ${{ env.GKE_CLUSTER }} \
+            --zone ${{ env.GKE_ZONE }} \
+            --project ${{ env.GKE_PROJECT }}
+
+      - name: Determine deployment parameters
+        id: params
+        run: |
+          OWNER_LC=$(echo "${{ secrets.IMAGE_OWNER || github.repository_owner }}" | tr '[:upper:]' '[:lower:]')
+          echo "owner=${OWNER_LC}" >> $GITHUB_OUTPUT
+
+          if [ "${{ github.event_name }}" == "repository_dispatch" ]; then
+            echo "services=${{ github.event.client_payload.services }}" >> $GITHUB_OUTPUT
+            echo "tag=${{ github.event.client_payload.tag }}" >> $GITHUB_OUTPUT
+            echo "source_repo=${{ github.event.client_payload.source_repo }}" >> $GITHUB_OUTPUT
+          else
+            echo "services=${{ github.event.inputs.services }}" >> $GITHUB_OUTPUT
+            echo "tag=${{ github.event.inputs.image_tag }}" >> $GITHUB_OUTPUT
+            echo "source_repo=manual" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Update image versions in kustomization
+        run: |
+          cd kustomize
+          SERVICES="${{ steps.params.outputs.services }}"
+          TAG="${{ steps.params.outputs.tag }}"
+          OWNER="${{ steps.params.outputs.owner }}"
+
+          echo "Deploying services: $SERVICES with tag: $TAG"
+
+          if [[ "$SERVICES" == "all" || "$SERVICES" == *"gateway"* ]]; then
+            kustomize edit set image gateway-service=${{ env.REGISTRY }}/${OWNER}/gateway-service:${TAG}
+          fi
+
+          if [[ "$SERVICES" == "all" || "$SERVICES" == *"posts-service"* ]]; then
+            kustomize edit set image posts-service=${{ env.REGISTRY }}/${OWNER}/posts-service:${TAG}
+          fi
+
+          if [[ "$SERVICES" == "all" || "$SERVICES" == *"mail-service"* ]]; then
+            kustomize edit set image mail-service=${{ env.REGISTRY }}/${OWNER}/mail-service:${TAG}
+          fi
+
+      - name: Install nginx-ingress controller if not exists
+        run: |
+          if ! kubectl get namespace ingress-nginx &> /dev/null; then
+            kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.9.4/deploy/static/provider/cloud/deploy.yaml
+            kubectl wait --namespace ingress-nginx \
+              --for=condition=ready pod \
+              --selector=app.kubernetes.io/component=controller \
+              --timeout=180s
+          fi
+
+      - name: Create namespace if not exists
+        run: |
+          kubectl create namespace cloud-demo --dry-run=client -o yaml | kubectl apply -f -
+
+      - name: Create secrets if not exist
+        run: |
+          if ! kubectl get secret postgresql-secret -n cloud-demo &> /dev/null; then
+            kubectl create secret generic postgresql-secret \
+              --from-l
