@@ -74,15 +74,15 @@ jobs:
           echo "Deploying services: $SERVICES with tag: $TAG"
 
           if [[ "$SERVICES" == "all" || "$SERVICES" == *"gateway"* ]]; then
-            kustomize edit set image gateway-service=${{ env.REGISTRY }}/${OWNER}/gateway-service:${TAG}
+            kustomize edit set image gateway-service="${{ env.REGISTRY }}/${OWNER}/gateway-service:${TAG}"
           fi
-
+          
           if [[ "$SERVICES" == "all" || "$SERVICES" == *"posts-service"* ]]; then
-            kustomize edit set image posts-service=${{ env.REGISTRY }}/${OWNER}/posts-service:${TAG}
+            kustomize edit set image posts-service="${{ env.REGISTRY }}/${OWNER}/posts-service:${TAG}"
           fi
 
           if [[ "$SERVICES" == "all" || "$SERVICES" == *"mail-service"* ]]; then
-            kustomize edit set image mail-service=${{ env.REGISTRY }}/${OWNER}/mail-service:${TAG}
+            kustomize edit set image mail-service="${{ env.REGISTRY }}/${OWNER}/mail-service:${TAG}"
           fi
 
       - name: Install nginx-ingress controller if not exists
