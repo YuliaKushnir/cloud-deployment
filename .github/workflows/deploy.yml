@@ -110,7 +110,7 @@ jobs:
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
         run: |
-          chmod +x ./kustomize/create-secrets.sh
+          chmod +x ./kustomize/create-secret.sh
           ./kustomize/create-secret.sh
 
       - name: Deploy to GKE
