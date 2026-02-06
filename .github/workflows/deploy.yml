@@ -100,23 +100,18 @@ jobs:
           kubectl create namespace cloud-demo --dry-run=client -o yaml | kubectl apply -f -
 
       - name: Create secrets if not exist
-        run: |
-          bash scripts/create-secret.sh
-#          # PostgreSQL secret
-#          if ! kubectl get secret postgresql-secret -n cloud-demo &> /dev/null; then
-#            kubectl create secret generic postgresql-secret \
-#              --from-literal=username=postgres \
-#              --from-literal=password="${{ secrets.POSTGRES_PASSWORD }}" \
-#              -n cloud-demo
-#          fi
-#
-#          # RabbitMQ secret
-#          if ! kubectl get secret rabbitmq-secret -n cloud-demo &> /dev/null; then
-#            kubectl create secret generic rabbitmq-secret \
-#              --from-literal=username=guest \
-#              --from-literal=password="${{ secrets.RABBITMQ_PASSWORD }}" \
-#              -n cloud-demo
-#          fi
+        env:
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          RABBITMQ_PASSWORD: ${{ secrets.RABBITMQ_PASSWORD }}
+          MAIL_HOST: ${{ secrets.MAIL_HOST }}
+          MAIL_PORT: ${{ secrets.MAIL_PORT }}
+          MAIL_USER: ${{ secrets.MAIL_USER }}
+          MAIL_PASS: ${{ secrets.MAIL_PASS }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          run: |
+            chmod +x ./kustomize/create-secrets.sh
+            ./kustomize/create-secrets.sh
 
       - name: Deploy to GKE
         run: |

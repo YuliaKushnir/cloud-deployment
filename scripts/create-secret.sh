@@ -14,9 +14,7 @@ set -e
 echo "=== Створення Kubernetes Secrets ==="
 
 # Значення за замовчуванням (для локальної розробки)
-POSTGRES_USER="${POSTGRES_USER:-postgres}"
 POSTGRES_PASSWORD="${POSTGRES_PASSWORD:-$(openssl rand -base64 16)}"
-RABBITMQ_USER="${RABBITMQ_USER:-guest}"
 RABBITMQ_PASSWORD="${RABBITMQ_PASSWORD:-$(openssl rand -base64 16)}"
 
 GOOGLE_CLIENT_ID="${GOOGLE_CLIENT_ID:-}"
@@ -31,7 +29,6 @@ MAIL_PASS="${MAIL_PASS:-}"
 if ! kubectl get secret postgresql-secret -n cloud-demo &> /dev/null; then
   echo "Створюю postgresql-secret..."
   kubectl create secret generic postgresql-secret \
-    --from-literal=username="$POSTGRES_USER" \
     --from-literal=password="$POSTGRES_PASSWORD" \
     -n cloud-demo
 fi
@@ -40,7 +37,6 @@ fi
 if ! kubectl get secret rabbitmq-secret -n cloud-demo &> /dev/null; then
   echo "Створюю rabbitmq-secret..."
   kubectl create secret generic rabbitmq-secret \
-    --from-literal=username="$RABBITMQ_USER" \
     --from-literal=password="$RABBITMQ_PASSWORD" \
     -n cloud-demo
 fi
@@ -64,19 +60,5 @@ if ! kubectl get secret mail-secret -n cloud-demo &> /dev/null; then
     --from-literal=password="$MAIL_PASS" \
     -n cloud-demo
 fi
-
-## PostgreSQL Secret
-#echo "Створюю postgresql-secret..."
-#kubectl create secret generic postgresql-secret \
-#  --from-literal=username="$POSTGRES_USER" \
-#  --from-literal=password="$POSTGRES_PASSWORD" \
-#  --dry-run=client -o yaml | kubectl apply -f -
-#
-## RabbitMQ Secret
-#echo "Створюю rabbitmq-secret..."
-#kubectl create secret generic rabbitmq-secret \
-#  --from-literal=username="$RABBITMQ_USER" \
-#  --from-literal=password="$RABBITMQ_PASSWORD" \
-#  --dry-run=client -o yaml | kubectl apply -f -
 
 echo "=== Секрети створено ==="
