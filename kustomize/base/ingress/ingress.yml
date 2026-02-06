@@ -18,7 +18,7 @@ spec:
               service:
                 name: gateway
                 port:
-                  number: 8080
+                  number: 1000
           # Everything else is Frontend (React SPA)
           - path: /
             pathType: Prefix

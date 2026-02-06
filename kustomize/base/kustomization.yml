@@ -15,7 +15,7 @@ resources:
   - kibana
 
   # Application services
-  - gateway
+  - gateway-service
   - posts-service
   - mail-service
 

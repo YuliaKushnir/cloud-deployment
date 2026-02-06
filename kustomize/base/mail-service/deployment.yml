@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: mail-service
-          image: ghcr.io/YOUR_GITHUB_OWNER/mail-service:latest
+          image: ghcr.io/yuliakushnir/mail-service:latest
           imagePullPolicy: Always
 
           ports:

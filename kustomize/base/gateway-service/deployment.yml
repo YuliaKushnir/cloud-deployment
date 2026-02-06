@@ -15,7 +15,7 @@ spec:
       containers:
         - name: gateway
           image: gateway-service:latest
-          imagePullPolicy: Always
+#          imagePullPolicy: Always
 
           resources:
             requests:

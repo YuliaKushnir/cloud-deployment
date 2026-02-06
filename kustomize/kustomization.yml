@@ -6,13 +6,13 @@ resources:
 
 images:
   - name: posts-service
-    newName: ghcr.io/YOUR_GITHUB_USERNAME/posts-service
+    newName: ghcr.io/yuliakushnir/posts-service
     newTag: latest
   - name: mail-service
-    newName: ghcr.io/YOUR_GITHUB_USERNAME/mail-service
+    newName: ghcr.io/yuliakushnir/mail-service
     newTag: latest
   - name: gateway-service
-    newName: ghcr.io/YOUR_GITHUB_USERNAME/gateway-service
+    newName: ghcr.io/yuliakushnir/gateway-service
     newTag: latest
   - name: elasticsearch
     newName: docker.elastic.co/elasticsearch/elasticsearch

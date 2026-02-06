@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: posts-service
-          image: ghcr.io/YOUR_GITHUB_USERNAME/posts-service:latest
+          image: ghcr.io/yuliakushnir/posts-service:latest
           ports:
             - containerPort: 8080
