@@ -5,6 +5,9 @@ resources:
 - base
 
 images:
+- name: frontend-service
+  newName: ghcr.io/yuliakushnir/frontend
+  newTag: latest
 - name: gateway-service
   newName: ghcr.io/yuliakushnir/gateway-service
   newTag: latest

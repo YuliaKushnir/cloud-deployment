@@ -44,6 +44,9 @@ spec:
 #                secretKeyRef:
 #                  name: elasticsearch-secret
 #                  key: password
+
+            - name: SPRING_ELASTICSEARCH_URI
+              value: "http://elasticsearch:9200"
             - name: MAIL_HOST
               valueFrom:
                 secretKeyRef:

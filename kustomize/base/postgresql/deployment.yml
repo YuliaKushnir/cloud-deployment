@@ -26,10 +26,7 @@ spec:
               cpu: "300m"
           env:
             - name: POSTGRES_USER
-              valueFrom:
-                secretKeyRef:
-                  name: postgresql-secret
-                  key: username
+              value: "postgres"
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
