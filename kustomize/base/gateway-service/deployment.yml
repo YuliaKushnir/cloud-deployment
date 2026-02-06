@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: gateway
+  namespace: cloud-demo
 spec:
   replicas: 1
   selector:
@@ -29,31 +30,26 @@ spec:
             - containerPort: 1000
 
           env:
-            - name: SPRING_APPLICATION_NAME
-              value: gateway-service
-
-            - name: SERVER_PORT
-              value: "1000"
-
-            - name: SPRING_CONFIG_IMPORT
-              value: optional:consul:/
-
-            - name: SPRING_CLOUD_CONSUL_HOST
-              value: consul
-            - name: SPRING_CLOUD_CONSUL_PORT
-              value: "8500"
-
             - name: GOOGLE_CLIENT_ID
               valueFrom:
                 secretKeyRef:
-                  name: gateway-oauth-secret
-                  key: GOOGLE_CLIENT_ID
-
+                  name: google-oauth-secret
+                  key: client-id
             - name: GOOGLE_CLIENT_SECRET
               valueFrom:
                 secretKeyRef:
-                  name: gateway-oauth-secret
-                  key: GOOGLE_CLIENT_SECRET
+                  name: google-oauth-secret
+                  key: client-secret
+            - name: SPRING_RABBITMQ_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: rabbitmq-secret
+                  key: username
+            - name: SPRING_RABBITMQ_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: rabbitmq-secret
+                  key: password
 
           readinessProbe:
             httpGet:

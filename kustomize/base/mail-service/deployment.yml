@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mail-service
+  namespace: cloud-demo
   labels:
     app: mail-service
 spec:
@@ -23,23 +24,46 @@ spec:
             - containerPort: 8081
 
           env:
-            - name: SPRING_APPLICATION_NAME
-              value: mail-service
-
-            - name: SPRING_CLOUD_CONSUL_HOST
-              value: consul
-
-            - name: SPRING_CLOUD_CONSUL_PORT
-              value: "8500"
-
-            - name: SPRING_RABBITMQ_HOST
-              value: rabbitmq
-
-            - name: SPRING_RABBITMQ_PORT
-              value: "5672"
-
-            - name: SPRING_ELASTICSEARCH_URI
-              value: http://elasticsearch:9200
+            - name: SPRING_RABBITMQ_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: rabbitmq-secret
+                  key: username
+            - name: SPRING_RABBITMQ_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: rabbitmq-secret
+                  key: password
+            - name: SPRING_ELASTICSEARCH_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: elasticsearch-secret
+                  key: username
+            - name: SPRING_ELASTICSEARCH_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: elasticsearch-secret
+                  key: password
+            - name: MAIL_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: mail-secret
+                  key: host
+            - name: MAIL_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: mail-secret
+                  key: port
+            - name: MAIL_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mail-secret
+                  key: username
+            - name: MAIL_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: mail-secret
+                  key: password
 
           readinessProbe:
             httpGet:
