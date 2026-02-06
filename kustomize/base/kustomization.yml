@@ -7,18 +7,17 @@ resources:
   # Namespace
   - namespace.yml
 
-  # Infrastructure (databases, message brokers, search engine)
+  # Infrastructure (databases, message brokers)
   - postgresql
-  - consul
+#  - consul
   - rabbitmq
   - elasticsearch
   - kibana
 
   # Application services
   - gateway-service
-  - posts-service
   - mail-service
-
+  - posts-service
 
   # Ingress (external access)
   - ingress

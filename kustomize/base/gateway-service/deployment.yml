@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: gateway
+  name: gateway-service
   namespace: cloud-demo
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: gateway
+      app: gateway-service
   template:
     metadata:
       labels:
-        app: gateway
+        app: gateway-service
     spec:
       containers:
-        - name: gateway
+        - name: gateway-service
           image: gateway-service:latest
 #          imagePullPolicy: Always
 
@@ -30,6 +30,14 @@ spec:
             - containerPort: 1000
 
           env:
+            - name: POSTS_SERVICE_HOST
+              value: "posts-service"
+            - name: POSTS_SERVICE_PORT
+              value: "8080"
+            - name: MAIL_SERVICE_HOST
+              value: "posts-service"
+            - name: MAIL_SERVICE_PORT
+              value: "8081"
             - name: GOOGLE_CLIENT_ID
               valueFrom:
                 secretKeyRef:
