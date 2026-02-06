@@ -19,5 +19,6 @@ resources:
   - posts-service
   - mail-service
 
+
   # Ingress (external access)
   - ingress
