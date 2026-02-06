@@ -10,7 +10,7 @@ images:
   newTag: latest
 - name: gateway-service
   newName: ghcr.io/yuliakushnir/gateway-service
-  newTag: 14a9927366e8df1dd2d4763690d67ed0980a15b9
+  newTag: 63ef1e8de747a09baf348d8b10f488162d5a5644
 - name: mail-service
   newName: ghcr.io/yuliakushnir/mail-service
   newTag: latest
