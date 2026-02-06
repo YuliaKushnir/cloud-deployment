@@ -14,18 +14,18 @@ images:
   - name: gateway-service
     newName: ghcr.io/yuliakushnir/gateway-service
     newTag: latest
-  - name: elasticsearch
-    newName: docker.elastic.co/elasticsearch/elasticsearch
-    newTag: 8.6.1
-  - name: kibana
-    newName: docker.elastic.co/kibana/kibana
-    newTag: 8.6.1
-  - name: rabbitmq
-    newName: rabbitmq
-    newTag: 3-management
-  - name: consul
-    newName: hashicorp/consul
-    newTag: 1.16.2
-  - name: postgres
-    newName: postgres
-    newTag: 15
+#  - name: elasticsearch
+#    newName: docker.elastic.co/elasticsearch/elasticsearch
+#    newTag: 8.6.1
+#  - name: kibana
+#    newName: docker.elastic.co/kibana/kibana
+#    newTag: 8.6.1
+#  - name: rabbitmq
+#    newName: rabbitmq
+#    newTag: 3-management
+#  - name: consul
+#    newName: hashicorp/consul
+#    newTag: 1.16.2
+#  - name: postgres
+#    newName: postgres
+#    newTag: 15
