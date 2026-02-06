@@ -5,7 +5,7 @@ namespace: cloud-demo
 
 resources:
   # Namespace
-  - namespace/namespace.yml
+  - namespace.yml
 
   # Infrastructure (databases, message brokers, search engine)
   - postgresql
