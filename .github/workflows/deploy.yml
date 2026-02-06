@@ -84,6 +84,11 @@ jobs:
           if [[ "$SERVICES" == "all" || "$SERVICES" == *"mail-service"* ]]; then
             kustomize edit set image mail-service=${{ env.REGISTRY }}/${OWNER}/mail-service:${TAG}
           fi
+          
+          if [[ "$SERVICES" == "all" || "$SERVICES" == *"frontend"* ]]; then
+            echo "Updating frontend-service to $TAG"
+            kustomize edit set image frontend=${{ env.REGISTRY }}/${OWNER}/frontend:${TAG}
+          fi
 
       - name: Install nginx-ingress controller if not exists
         run: |
@@ -135,6 +140,11 @@ jobs:
             echo "Restarting mail-service..."
             kubectl rollout restart deployment/mail-service -n cloud-demo
           fi
+          
+          if [[ "$SERVICES" == "all" || "$SERVICES" == *"frontend"* ]]; then
+            echo "Restarting frontend..."
+            kubectl rollout restart deployment/frontend -n cloud-demo
+          fi
 
       - name: Wait for rollout
         run: |
@@ -150,6 +160,10 @@ jobs:
             
           if [[ "$SERVICES" == "all" || "$SERVICES" == *"mail-service"* ]]; then
             kubectl rollout status deployment/mail-service -n cloud-demo --timeout=120s || true
+          fi
+          
+          if [[ "$SERVICES" == "all" || "$SERVICES" == *"frontend"* ]]; then
+            kubectl rollout status deployment/frontend -n cloud-demo --timeout=120s || true
           fi
 
       - name: Get deployment status
