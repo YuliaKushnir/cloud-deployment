@@ -109,9 +109,9 @@ jobs:
           MAIL_PASS: ${{ secrets.MAIL_PASS }}
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
-          run: |
-            chmod +x ./kustomize/create-secrets.sh
-            ./kustomize/create-secrets.sh
+        run: |
+          chmod +x ./kustomize/create-secrets.sh
+          ./kustomize/create-secrets.sh
 
       - name: Deploy to GKE
         run: |
