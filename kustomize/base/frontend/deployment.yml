@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: ghcr.io/yuliakushnir/frontend:latest
+          image: ghcr.io/yuliakushnir/block3-travel-blog:latest
           imagePullPolicy: Always
 
           resources:

@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: gateway-service
-          image: block3-travel-blog:latest
+          image: gateway-service:latest
 #          imagePullPolicy: Always
 
           resources:
