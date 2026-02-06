@@ -1,43 +1,40 @@
-kustomize/
-base/
-namespace/
-namespace.yml
-postgresql/
-deployment.yml
-service.yml
-pvc.yml
-kustomization.yml
-consul/
-deployment.yml
-service.yml
-kustomization.yml
-rabbitmq/
-deployment.yml
-service.yml
-kustomization.yml
-elasticsearch/
-deployment.yml
-service.yml
-kustomization.yml
-kibana/
-deployment.yml
-service.yml
-kustomization.yml
-gateway/
-deployment.yml
-service.yml
-kustomization.yml
-posts-service/
-deployment.yml
-service.yml
-kustomization.yml
-mail-service/
-deployment.yml
-service.yml
-kustomization.yml
-ingress.yml
-kustomization.yml
-kustomization.yml
-scripts/
-create-secrets.sh
-deploy.sh
+## Репозиторій містить інфраструктурну конфігурацію для деплою мікросервісного застосунку в Google Kubernetes Engine (GKE).
+
+Містить:
+- Kubernetes manifests (Deployment, Service)
+- kustomization.yml для керування конфігураціями 
+- CI/CD деплой через GitHub Actions 
+- Підключення секретів через GitHub Secrets / Kubernetes Secrets 
+- Gateway як єдина точка входу до системи
+
+### Змінні середовища (Secrets)
+
+POSTGRES_PASSWORD
+
+RABBITMQ_PASSWORD
+
+MAIL_HOST
+
+MAIL_PORT
+
+MAIL_USER
+
+MAIL_PASS
+
+GOOGLE_CLIENT_ID
+
+GOOGLE_CLIENT_SECRET
+
+### Деплой
+
+Деплой відбувається автоматично через GitHub Actions при пуші в основну гілку.
+
+Основні кроки pipeline:
+
+1. Збірка Docker-образів
+
+2. Публікація в container registry
+
+3. Оновлення manifests
+
+4. Деплой у GKE через kubectl apply / kustomize
