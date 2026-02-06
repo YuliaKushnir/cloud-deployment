@@ -13,4 +13,4 @@ images:
   newTag: latest
 - name: posts-service
   newName: ghcr.io/yuliakushnir/posts-service
-  newTag: 05d4a29b61138864ddc606235c26cf8c9557eda3
+  newTag: latest
