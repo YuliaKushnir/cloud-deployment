@@ -40,16 +40,6 @@ spec:
                 secretKeyRef:
                   name: google-oauth-secret
                   key: client-secret
-            - name: SPRING_RABBITMQ_USERNAME
-              valueFrom:
-                secretKeyRef:
-                  name: rabbitmq-secret
-                  key: username
-            - name: SPRING_RABBITMQ_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: rabbitmq-secret
-                  key: password
 
           readinessProbe:
             httpGet:
