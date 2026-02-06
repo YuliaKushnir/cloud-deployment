@@ -28,11 +28,9 @@ spec:
             - name: DB_USERNAME
               value: "postgres"
             - name: DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: postgresql-secret
-                  key: password
-#            - name: SPRING_RABBITMQ_USERNAME
+              value: "12345678"
+
+            #            - name: SPRING_RABBITMQ_USERNAME
 #              valueFrom:
 #                secretKeyRef:
 #                  name: rabbitmq-secret
