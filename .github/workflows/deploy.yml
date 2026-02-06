@@ -101,7 +101,7 @@ jobs:
 
       - name: Create secrets if not exist
         run: |
-          bash scripts/create-secrets.sh
+          bash scripts/create-secret.sh
 #          # PostgreSQL secret
 #          if ! kubectl get secret postgresql-secret -n cloud-demo &> /dev/null; then
 #            kubectl create secret generic postgresql-secret \
