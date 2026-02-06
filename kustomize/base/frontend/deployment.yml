@@ -15,8 +15,8 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: frontend:latest
-#          imagePullPolicy: Always
+          image: ghcr.io/yuliakushnir/frontend:latest
+          imagePullPolicy: Always
 
           resources:
             requests:

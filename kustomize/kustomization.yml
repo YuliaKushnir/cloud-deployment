@@ -6,7 +6,7 @@ resources:
 
 images:
 - name: frontend
-  newName: ghcr.io/yuliakushnir/frontend
+  newName: ghcr.io/yuliakushnir/block3-travel-blog
   newTag: latest
 - name: gateway-service
   newName: ghcr.io/yuliakushnir/gateway-service
