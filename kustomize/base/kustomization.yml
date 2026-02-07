@@ -15,10 +15,10 @@ resources:
   - kibana
 
   # Application services
-  - frontend
   - gateway-service
   - mail-service
   - posts-service
+  - frontend
 
   # Ingress (external access)
   - ingress
