@@ -10,8 +10,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-    - host: 34.118.68.15.nip.io
-      http:
+    - http:
         paths:
           # API requests go directly to the Gateway
           - path: /oauth2
