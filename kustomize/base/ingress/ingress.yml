@@ -12,33 +12,55 @@ spec:
   rules:
     - http:
         paths:
-          # API requests go directly to the Gateway
-          - path: /oauth2
-            pathType: Prefix
-            backend:
-              service:
-                name: gateway-service
-                port:
-                  number: 1000
-          - path: /login
-            pathType: Prefix
-            backend:
-              service:
-                name: gateway-service
-                port:
-                  number: 1000
-          - path: /api
-            pathType: Prefix
-            backend:
-              service:
-                name: gateway-service
-                port:
-                  number: 1000
-          # Everything else is Frontend (React SPA)
-          - path: /
+          - path: /default
             pathType: Prefix
             backend:
               service:
                 name: frontend
                 port:
                   number: 80
+          - path: /secret
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend
+                port:
+                  number: 80
+
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: gateway-service
+                port:
+                  number: 1000
+#          # API requests go directly to the Gateway
+#          - path: /oauth2
+#            pathType: Prefix
+#            backend:
+#              service:
+#                name: gateway-service
+#                port:
+#                  number: 1000
+#          - path: /login
+#            pathType: Prefix
+#            backend:
+#              service:
+#                name: gateway-service
+#                port:
+#                  number: 1000
+#          - path: /api
+#            pathType: Prefix
+#            backend:
+#              service:
+#                name: gateway-service
+#                port:
+#                  number: 1000
+#          # Everything else is Frontend (React SPA)
+#          - path: /
+#            pathType: Prefix
+#            backend:
+#              service:
+#                name: frontend
+#                port:
+#                  number: 80
