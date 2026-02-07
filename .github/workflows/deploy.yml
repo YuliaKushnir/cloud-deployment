@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       services:
-        description: 'Services to deploy (comma-separated: gateway,posts-service,mail-service or all)'
+        description: 'Services to deploy (comma-separated: gateway-service,posts-service,mail-service or all)'
         required: true
         default: 'all'
       image_tag:
@@ -73,7 +73,7 @@ jobs:
 
           echo "Deploying services: $SERVICES with tag: $TAG"
 
-          if [[ "$SERVICES" == "all" || "$SERVICES" == *"gateway"* ]]; then
+          if [[ "$SERVICES" == "all" || "$SERVICES" == *"gateway-service"* ]]; then
             kustomize edit set image gateway-service=${{ env.REGISTRY }}/${OWNER}/gateway-service:${TAG}
           fi
 
@@ -126,9 +126,9 @@ jobs:
         run: |
           SERVICES="${{ steps.params.outputs.services }}"
           
-          if [[ "$SERVICES" == "all" || "$SERVICES" == *"gateway"* ]]; then
-            echo "Restarting gateway..."
-            kubectl rollout restart deployment/gateway -n cloud-demo
+          if [[ "$SERVICES" == "all" || "$SERVICES" == *"gateway-service"* ]]; then
+            echo "Restarting gateway-service..."
+            kubectl rollout restart deployment/gateway-service -n cloud-demo
           fi
 
           if [[ "$SERVICES" == "all" || "$SERVICES" == *"posts-service"* ]]; then
@@ -150,8 +150,8 @@ jobs:
         run: |
           SERVICES="${{ steps.params.outputs.services }}"
             
-          if [[ "$SERVICES" == "all" || "$SERVICES" == *"gateway"* ]]; then
-            kubectl rollout status deployment/gateway -n cloud-demo --timeout=120s || true
+          if [[ "$SERVICES" == "all" || "$SERVICES" == *"gateway-service"* ]]; then
+            kubectl rollout status deployment/gateway-service -n cloud-demo --timeout=120s || true
           fi
             
           if [[ "$SERVICES" == "all" || "$SERVICES" == *"posts-service"* ]]; then
