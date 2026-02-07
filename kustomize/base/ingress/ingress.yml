@@ -19,6 +19,13 @@ spec:
                 name: gateway
                 port:
                   number: 1000
+          - path: /oauth2
+            pathType: Prefix
+            backend:
+              service:
+                name: gateway
+                port:
+                  number: 1000
           # Everything else is Frontend (React SPA)
           - path: /
             pathType: Prefix
