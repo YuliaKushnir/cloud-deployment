@@ -26,6 +26,13 @@ spec:
                 name: gateway-service
                 port:
                   number: 1000
+          - path: /login
+            pathType: Prefix
+            backend:
+              service:
+                name: gateway-service
+                port:
+                  number: 1000
           # Everything else is Frontend (React SPA)
           - path: /
             pathType: Prefix
