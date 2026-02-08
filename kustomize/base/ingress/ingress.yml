@@ -13,27 +13,27 @@ spec:
     - http:
         paths:
           # API requests go directly to the Gateway
-          - path: /oauth2
-            pathType: Prefix
-            backend:
-              service:
-                name: gateway-service
-                port:
-                  number: 1000
-          - path: /login
-            pathType: Prefix
-            backend:
-              service:
-                name: gateway-service
-                port:
-                  number: 1000
-          - path: /api
-            pathType: Prefix
-            backend:
-              service:
-                name: gateway-service
-                port:
-                  number: 1000
+#          - path: /oauth2
+#            pathType: Prefix
+#            backend:
+#              service:
+#                name: gateway-service
+#                port:
+#                  number: 1000
+#          - path: /login
+#            pathType: Prefix
+#            backend:
+#              service:
+#                name: gateway-service
+#                port:
+#                  number: 1000
+#          - path: /api
+#            pathType: Prefix
+#            backend:
+#              service:
+#                name: gateway-service
+#                port:
+#                  number: 1000
           # Everything else is Frontend (React SPA)
           - path: /
             pathType: Prefix
