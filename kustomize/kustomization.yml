@@ -7,7 +7,7 @@ resources:
 images:
 - name: frontend
   newName: ghcr.io/yuliakushnir/frontend
-  newTag: 31a572cbc10982913ff0dbbe665b443995440791
+  newTag: b0739f0cdb66f9897429801b2a630f7bb7723e29
 - name: gateway-service
   newName: ghcr.io/yuliakushnir/gateway-service
   newTag: d8ae532b3a5e144e103f258ead1f246b65fd2271
