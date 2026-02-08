@@ -7,34 +7,41 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-send-timeout: "120"
     nginx.ingress.kubernetes.io/proxy-body-size: "10m"
     nginx.ingress.kubernetes.io/use-forwarded-headers: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/x-forwarded-prefix: ""
+
 spec:
   ingressClassName: nginx
   rules:
     - http:
         paths:
           # API requests go directly to the Gateway
-#          - path: /oauth2
-#            pathType: Prefix
-#            backend:
-#              service:
-#                name: gateway-service
-#                port:
-#                  number: 1000
-#          - path: /login
-#            pathType: Prefix
-#            backend:
-#              service:
-#                name: gateway-service
-#                port:
-#                  number: 1000
-#          - path: /api
-#            pathType: Prefix
-#            backend:
-#              service:
-#                name: gateway-service
-#                port:
-#                  number: 1000
-          # Everything else is Frontend (React SPA)
+          - path: /oauth2
+            pathType: Prefix
+            backend:
+              service:
+                name: gateway-service
+                port:
+                  number: 1000
+#            pathRewrite:
+#              nginx.ingress.kubernetes.io/x-forwarded-prefix: ""
+          - path: /login
+            pathType: Prefix
+            backend:
+              service:
+                name: gateway-service
+                port:
+                  number: 1000
+#            pathRewrite:
+#              nginx.ingress.kubernetes.io/x-forwarded-prefix: ""
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: gateway-service
+                port:
+                  number: 1000
+#           Everything else is Frontend (React SPA)
           - path: /
             pathType: Prefix
             backend:
